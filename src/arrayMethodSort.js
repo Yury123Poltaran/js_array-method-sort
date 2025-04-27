@@ -9,7 +9,24 @@ function applyCustomSort() {
         if (compareFunction) {
           result = compareFunction(a, b);
         } else {
-          result = String(a).localeCompare(String(b), undefined, { sensitivity: 'base' });
+          // Спочатку порівнюємо через toLowerCase
+          const aLower = String(a).toLowerCase();
+          const bLower = String(b).toLowerCase();
+          
+          if (aLower < bLower) {
+            result = -1;
+          } else if (aLower > bLower) {
+            result = 1;
+          } else {
+            // Якщо однакові — порівнюємо оригінальні для правильного порядку великої/малої букви
+            if (String(a) < String(b)) {
+              result = -1;
+            } else if (String(a) > String(b)) {
+              result = 1;
+            } else {
+              result = 0;
+            }
+          }
         }
 
         if (result > 0) {
@@ -24,6 +41,7 @@ function applyCustomSort() {
 }
 
 module.exports = applyCustomSort;
+
 
 
 
